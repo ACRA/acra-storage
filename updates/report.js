@@ -43,17 +43,34 @@ function(doc,req) {
 	if(data.CRASH_CONFIGURATION.uiMode) {
 		data.CRASH_CONFIGURATION.uiMode = data.CRASH_CONFIGURATION.uiMode.split('+');
 	}
-// This causes Error 500...
-/*	if(data.DISPLAY) {
-		data.DISPLAY.forEach( function(d) {
-			if(d.flags){
-				d.flags = d.flags.split('+');
-			}
-		});
-	}
-*/
+
+    addReportSignature(data);
 
 	data.requestHeaders = req.headers;
 	message = "OK";
 	return [ data, message];
 }
+
+var addReportSignature = function(report) {
+    if(report.STACK_TRACE && report.PACKAGE_NAME) {
+        var result = { full: "", digest: ""};
+        var stack = report.STACK_TRACE;
+        if(stack.length > 1) {
+            var exceptionName =  stack[0];
+            var faultyLine = stack[1];
+            var applicationPackage = report.PACKAGE_NAME;
+            for(var line in stack) {
+                if(stack[line].indexOf(applicationPackage) >= 0) {
+                    faultyLine = stack[line];
+                    break;
+                }
+            }
+            result.full = exceptionName + " : " + faultyLine;
+
+            var captureRegEx = /\((.*)\)/g;
+            var faultyLineDigest =  captureRegEx.exec(faultyLine)[1];
+            result.digest = exceptionName + " : " + faultyLineDigest;
+            report.SIGNATURE = result;
+        }
+    }
+};
