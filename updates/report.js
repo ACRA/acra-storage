@@ -65,7 +65,7 @@ var addReportSignature = function(report) {
                     break;
                 }
             }
-            result.full = exceptionName + " : " + faultyLine;
+            result.full = exceptionName + " : " + trim(faultyLine);
 
             var captureRegEx = /\((.*)\)/g;
             var faultyLineDigest =  captureRegEx.exec(faultyLine)[1];
@@ -74,3 +74,8 @@ var addReportSignature = function(report) {
         }
     }
 };
+
+var trim = function(myString)
+{
+    return myString.replace(/^\s+/g,'').replace(/\s+$/g,'')
+}
