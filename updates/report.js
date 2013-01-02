@@ -45,8 +45,11 @@ function(doc,req) {
 	}
 
     addReportSignature(data);
+    if(data.USER_CRASH_DATE && data.USER_APP_START_DATE) {
+        data.uptime = (new Date(data.USER_CRASH_DATE).getTime() - new Date(data.USER_APP_START_DATE).getTime())  / 1000;
+    }
 
-	data.requestHeaders = req.headers;
+    data.requestHeaders = req.headers;
 	message = "OK";
 	return [ data, message];
 }
