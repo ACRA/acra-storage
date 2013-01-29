@@ -4,9 +4,22 @@ function (head, req) {
         // create an array for our result set
         send('[');
         var first = true;
-        var deviceValue = req.query.device ? req.query.device : "";
-        while (row = getRow()) {
-            if(row.value.device && row.value.device.indexOf(deviceValue) >= 0) {
+        var filterKey = req.query.key;
+        var value = req.query.value;
+        var filterKey2 = req.query.key2;
+        var value2 = req.query.value2;
+        var nmax = req.query.nmax;
+        var count = 0;
+        while (row = getRow() && count < nmax) {
+            var sendRow = true;
+            if(filterKey && !(row.value[filterKey] == value)) {
+                sendRow = false;
+                send("discarded");
+            }
+            if(filterKey2 && !(row.value[filterKey2] == value2)) {
+                sendRow = false;
+            }
+            if(sendRow) {
                 if(!first) {
                     send(',');
                 } else {
@@ -14,6 +27,7 @@ function (head, req) {
                 }
                 // make sure to stringify the results :)
                 send(JSON.stringify(row));
+                count++;
             }
         }
         send(']');

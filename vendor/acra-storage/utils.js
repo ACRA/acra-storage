@@ -13,12 +13,18 @@ var utils = {
             } else {
                 value.stack_trace = doc.STACK_TRACE;
             }
-            if(doc.BUILD.MANUFACTURER) {
-                value.device = doc.BUILD.MANUFACTURER + " " + doc.BUILD.BRAND + " " + doc.BUILD.MODEL;
-            } else {
-                value.device = doc.BUILD.BRAND + " " + doc.BUILD.MODEL;
-            }
+
+            value.device = utils.getDevice(doc);
+
             return value;
+        }
+    },
+
+    getDevice: function(doc) {
+        if(doc.BUILD.MANUFACTURER) {
+            return doc.BUILD.MANUFACTURER + " " + doc.BUILD.BRAND + " " + doc.BUILD.MODEL;
+        } else {
+            return doc.BUILD.BRAND + " " + doc.BUILD.MODEL;
         }
     }
 };
