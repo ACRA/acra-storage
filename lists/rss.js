@@ -1,11 +1,16 @@
 function (head, req) {
+    start({ "headers" : {"Content-type" : "application/rss+xml"}});
+    var NB_ITEMS_MAX = 30;
+
     send('<rss version="0.91">');
 
     send('<channel>');
     send('<title>Latest Crash Reports</title>');
     send('<link>http://' + req.headers.Host + '/' + req.path[0] + '/' + '_design/acralyzer/index.html</link>');
     send('<description>Acralyzer latest crash reports.</description>');
-    while (row = getRow()) {
+    var nbItems = 0;
+    while ((nbItems < NB_ITEMS_MAX) && (row = getRow())) {
+        nbItems++;
         send('<item>');
         send('<title>');
         if(row.value.signature) {
