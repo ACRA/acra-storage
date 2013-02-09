@@ -6,7 +6,7 @@ function (head, req) {
 
     send('<channel>');
     send('<title>Latest Crash Reports</title>');
-    send('<link>http://' + req.headers.Host + '/' + req.path[0] + '/' + '_design/acralyzer/index.html</link>');
+    send('<link>http://' + req.headers.Host + '/acralyzer/_design/acralyzer/index.html</link>');
     send('<description>Acralyzer latest crash reports.</description>');
     var nbItems = 0;
     while ((nbItems < NB_ITEMS_MAX) && (row = getRow())) {
@@ -18,7 +18,7 @@ function (head, req) {
         }
         send('</title>');
         send('<link>http://'+ req.headers.Host);
-        send('/' + req.path[0] + '/' + '_design/acralyzer/index.html#/ReportDetails?id=' + row.id +'</link>');
+        send('/acralyzer/_design/acralyzer/index.html#/report-details/' + row.id +'</link>');
         send('<description>');
         if(row.value.application_version_name) {
             send('<p>app_version: ' + row.value.application_version_name + '</p>');
