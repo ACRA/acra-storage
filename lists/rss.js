@@ -8,8 +8,8 @@ function (head, req) {
     send('<rss version="0.91">');
 
     send('<channel>');
-    send('<title>Latest Crash Reports</title>');
     var appName = req.path[0].substring(appDBPrefix.length);
+    send('<title>' + appName + ' latest Crash Reports</title>');
     send('<link>http://' + req.headers.Host + '/acralyzer/_design/acralyzer/index.html#/dashboard/' + appName + '</link>');
     send('<description>Acralyzer latest crash reports.</description>');
     var nbItems = 0;
