@@ -1,4 +1,7 @@
 function (head, req) {
+
+    // !code config/config.js
+
     start({ "headers" : {"Content-type" : "application/rss+xml"}});
     var NB_ITEMS_MAX = 30;
 
@@ -6,7 +9,8 @@ function (head, req) {
 
     send('<channel>');
     send('<title>Latest Crash Reports</title>');
-    send('<link>http://' + req.headers.Host + '/acralyzer/_design/acralyzer/index.html</link>');
+    var appName = req.path[0].substring(appDBPrefix.length);
+    send('<link>http://' + req.headers.Host + '/acralyzer/_design/acralyzer/index.html#/dashboard/' + appName + '</link>');
     send('<description>Acralyzer latest crash reports.</description>');
     var nbItems = 0;
     while ((nbItems < NB_ITEMS_MAX) && (row = getRow())) {
@@ -18,7 +22,7 @@ function (head, req) {
         }
         send('</title>');
         send('<link>http://'+ req.headers.Host);
-        send('/acralyzer/_design/acralyzer/index.html#/report-details/' + row.id +'</link>');
+        send('/acralyzer/_design/acralyzer/index.html#/report-details/' + appName + '/' + row.id +'</link>');
         send('<description>');
         if(row.value.application_version_name) {
             send('<p>app_version: ' + row.value.application_version_name + '</p>');
