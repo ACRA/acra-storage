@@ -1,6 +1,6 @@
 function (head, req) {
 
-    // !code config/config.js
+    var appDBPrefix = 'acra-';
 
     start({ "headers" : {"Content-type" : "application/rss+xml"}});
     var NB_ITEMS_MAX = 30;

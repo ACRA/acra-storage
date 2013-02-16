@@ -71,7 +71,11 @@ var addReportSignature = function(report) {
             result.full = exceptionName + " : " + trim(faultyLine);
 
             var captureRegEx = /\((.*)\)/g;
-            var faultyLineDigest =  captureRegEx.exec(faultyLine)[1];
+            var capturedFaultyLine = captureRegEx.exec(faultyLine);
+            var faultyLineDigest = "unknown";
+            if(capturedFaultyLine) {
+                faultyLineDigest =  capturedFaultyLine[1];
+            }
             result.digest = exceptionName + " : " + faultyLineDigest;
             report.SIGNATURE = result;
         }

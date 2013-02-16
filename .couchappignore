@@ -1,1 +1,5 @@
-[".idea"]
+[
+    ".idea",
+    "LICENSE",
+    "README.md"
+]
