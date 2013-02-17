@@ -63,7 +63,7 @@ var addReportSignature = function(report) {
             var faultyLine = stack[1];
             var applicationPackage = report.PACKAGE_NAME;
             for(var line in stack) {
-                if(stack[line].indexOf(applicationPackage) >= 0) {
+                if(stack[line].indexOf('at ' + applicationPackage) >= 0) {
                     faultyLine = stack[line];
                     break;
                 }
