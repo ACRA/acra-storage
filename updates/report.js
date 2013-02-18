@@ -19,30 +19,41 @@ function(doc,req) {
 	if(data.EVENTSLOG) {
 		data.EVENTSLOG = data.EVENTSLOG.split('\n');
 	}
-	if(data.SETTINGS_SECURE.ENABLED_INPUT_METHODS) {
-		data.SETTINGS_SECURE.ENABLED_INPUT_METHODS = data.SETTINGS_SECURE.ENABLED_INPUT_METHODS.split(':');
-	}
-	if(data.SETTINGS_SYSTEM.AIRPLANE_MODE_RADIOS) {
-		data.SETTINGS_SYSTEM.AIRPLANE_MODE_RADIOS = data.SETTINGS_SYSTEM.AIRPLANE_MODE_RADIOS.split(',');
-	}
-	if(data.SETTINGS_GLOBAL.AIRPLANE_MODE_RADIOS) {
-		data.SETTINGS_GLOBAL.AIRPLANE_MODE_RADIOS = data.SETTINGS_GLOBAL.AIRPLANE_MODE_RADIOS.split(',');
-	}
-	if(data.SETTINGS_GLOBAL.AIRPLANE_MODE_TOGGLEABLE_RADIOS) {
-		data.SETTINGS_GLOBAL.AIRPLANE_MODE_TOGGLEABLE_RADIOS = data.SETTINGS_GLOBAL.AIRPLANE_MODE_TOGGLEABLE_RADIOS.split(',');
-	}
-	if(data.INITIAL_CONFIGURATION.screenLayout) {
-		data.INITIAL_CONFIGURATION.screenLayout = data.INITIAL_CONFIGURATION.screenLayout.split('+');
-	}
-	if(data.INITIAL_CONFIGURATION.uiMode) {
-		data.INITIAL_CONFIGURATION.uiMode = data.INITIAL_CONFIGURATION.uiMode.split('+');
-	}
-	if(data.CRASH_CONFIGURATION.screenLayout) {
-		data.CRASH_CONFIGURATION.screenLayout = data.CRASH_CONFIGURATION.screenLayout.split('+');
-	}
-	if(data.CRASH_CONFIGURATION.uiMode) {
-		data.CRASH_CONFIGURATION.uiMode = data.CRASH_CONFIGURATION.uiMode.split('+');
-	}
+
+    if(data.SETTINGS_SECURE) {
+        if(data.SETTINGS_SECURE.ENABLED_INPUT_METHODS) {
+            data.SETTINGS_SECURE.ENABLED_INPUT_METHODS = data.SETTINGS_SECURE.ENABLED_INPUT_METHODS.split(':');
+        }
+    }
+    if(data.SETTINGS_SYSTEM) {
+        if(data.SETTINGS_SYSTEM.AIRPLANE_MODE_RADIOS) {
+            data.SETTINGS_SYSTEM.AIRPLANE_MODE_RADIOS = data.SETTINGS_SYSTEM.AIRPLANE_MODE_RADIOS.split(',');
+        }
+    }
+    if(data.SETTINGS_GLOBAL) {
+        if(data.SETTINGS_GLOBAL.AIRPLANE_MODE_RADIOS) {
+            data.SETTINGS_GLOBAL.AIRPLANE_MODE_RADIOS = data.SETTINGS_GLOBAL.AIRPLANE_MODE_RADIOS.split(',');
+        }
+        if(data.SETTINGS_GLOBAL.AIRPLANE_MODE_TOGGLEABLE_RADIOS) {
+            data.SETTINGS_GLOBAL.AIRPLANE_MODE_TOGGLEABLE_RADIOS = data.SETTINGS_GLOBAL.AIRPLANE_MODE_TOGGLEABLE_RADIOS.split(',');
+        }
+    }
+    if(data.INITIAL_CONFIGURATION) {
+        if(data.INITIAL_CONFIGURATION.screenLayout) {
+            data.INITIAL_CONFIGURATION.screenLayout = data.INITIAL_CONFIGURATION.screenLayout.split('+');
+        }
+        if(data.INITIAL_CONFIGURATION.uiMode) {
+            data.INITIAL_CONFIGURATION.uiMode = data.INITIAL_CONFIGURATION.uiMode.split('+');
+        }
+    }
+    if(data.CRASH_CONFIGURATION) {
+        if(data.CRASH_CONFIGURATION.screenLayout) {
+            data.CRASH_CONFIGURATION.screenLayout = data.CRASH_CONFIGURATION.screenLayout.split('+');
+        }
+        if(data.CRASH_CONFIGURATION.uiMode) {
+            data.CRASH_CONFIGURATION.uiMode = data.CRASH_CONFIGURATION.uiMode.split('+');
+        }
+    }
 
     addReportSignature(data);
     if(data.USER_CRASH_DATE && data.USER_APP_START_DATE) {
