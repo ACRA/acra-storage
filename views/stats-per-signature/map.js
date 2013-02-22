@@ -8,6 +8,7 @@ function(doc) {
         // This is a "solved" marker, mark it as solved
         var key = [ doc.APP_VERSION_CODE, doc.digest ];
         var value = { solved: true };
+        // TODO: maybe we should emit as many markers as there APP_VERSION_CODE possible anterior values
         emit(key, value);
     }
 }
