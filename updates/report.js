@@ -10,6 +10,9 @@ function(doc,req) {
 		data.STACK_TRACE = data.STACK_TRACE.split('\n');
 	}
 
+	if(data.APPLICATION_LOG) {
+		data.APPLICATION_LOG = data.APPLICATION_LOG.split('\n');
+	}
 	if(data.LOGCAT) {
 		data.LOGCAT = data.LOGCAT.split('\n');
 	}
