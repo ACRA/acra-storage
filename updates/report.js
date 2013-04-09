@@ -96,7 +96,6 @@ var addReportSignature = function(report) {
             result.digest = exceptionName + " : " + faultyLineDigest;
 
             // Find root cause
-            //EXPERIMENT
             // First, find the latest "Caused by" in the stack trace
             var rootExceptionStackLine = 0;
             var rootClue = "Caused by: ";
@@ -124,7 +123,6 @@ var addReportSignature = function(report) {
 
                 result.rootCause = rootExceptionName + " " + rootFaultyLine;
             }
-            //--EXPERIMENT
 
             report.SIGNATURE = result;
         }
