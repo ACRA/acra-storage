@@ -10,6 +10,9 @@ function(doc,req) {
 		data.STACK_TRACE = data.STACK_TRACE.split('\n');
 	}
 
+	if(data.APPLICATION_LOG) {
+		data.APPLICATION_LOG = data.APPLICATION_LOG.split('\n');
+	}
 	if(data.LOGCAT) {
 		data.LOGCAT = data.LOGCAT.split('\n');
 	}
@@ -19,6 +22,9 @@ function(doc,req) {
 	if(data.EVENTSLOG) {
 		data.EVENTSLOG = data.EVENTSLOG.split('\n');
 	}
+    if(data.DUMPSYS_MEMINFO) {
+        data.DUMPSYS_MEMINFO = data.DUMPSYS_MEMINFO.split('\n');
+    }
 
     if(data.SETTINGS_SECURE) {
         if(data.SETTINGS_SECURE.ENABLED_INPUT_METHODS) {
@@ -79,7 +85,7 @@ var addReportSignature = function(report) {
                     break;
                 }
             }
-            result.full = exceptionName + " : " + trim(faultyLine);
+            result.full = exceptionName + " " + trim(faultyLine);
 
             var captureRegEx = /\((.*)\)/g;
             var capturedFaultyLine = captureRegEx.exec(faultyLine);
@@ -88,6 +94,38 @@ var addReportSignature = function(report) {
                 faultyLineDigest =  capturedFaultyLine[1];
             }
             result.digest = exceptionName + " : " + faultyLineDigest;
+
+            // Find root cause
+            //EXPERIMENT
+            // First, find the latest "Caused by" in the stack trace
+            var rootExceptionStackLine = 0;
+            var rootClue = "Caused by: ";
+            for(var i = stack.length - 1; i >= 0 ; i--) {
+                if(trim(stack[i]).indexOf(rootClue) == 0) {
+                    // line starts with the rootClue
+                    rootExceptionStackLine = i;
+                    break;
+                }
+            }
+
+            if(rootExceptionStackLine > 0) {
+                // From here, extract the exception name
+                var rootExceptionName = stack[rootExceptionStackLine].substring(rootClue.length);
+
+                // Then find the first occurrence of the application package name
+                // If the application package name is not found, take the first line
+                var rootFaultyLine = stack[rootExceptionStackLine + 1];
+                for(var i = rootExceptionStackLine + 2; i < stack.length; i++) {
+                    if(stack[i].indexOf('at ' + applicationPackage) >= 0) {
+                        rootFaultyLine = trim(stack[i]);
+                        break;
+                    }
+                }
+
+                result.rootCause = rootExceptionName + " " + rootFaultyLine;
+            }
+            //--EXPERIMENT
+
             report.SIGNATURE = result;
         }
     }
@@ -95,5 +133,5 @@ var addReportSignature = function(report) {
 
 var trim = function(myString)
 {
-    return myString.replace(/^\s+/g,'').replace(/\s+$/g,'')
+    return myString.replace(/^\s+/g,'').replace(/\s+$/g,'');
 }
