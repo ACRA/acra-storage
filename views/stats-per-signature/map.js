@@ -2,6 +2,11 @@ function(doc) {
     if (doc.SIGNATURE && doc.SIGNATURE.digest && doc.APP_VERSION_CODE && doc.USER_CRASH_DATE) {
         // This is a report, compute stats
         var key = [ doc.APP_VERSION_CODE, doc.SIGNATURE.digest ];
+        if (doc.SIGNATURE.rootCause) {
+            key.push(doc.SIGNATURE.rootCause)
+        } else {
+            key.push("");
+        }
         var value = { latest: new Date(doc.USER_CRASH_DATE).getTime(), count: 1 }
         emit(key, value);
     } else if (doc.type == "solved_signature") {
