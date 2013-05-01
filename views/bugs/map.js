@@ -12,7 +12,12 @@ function(doc) {
     } else if (doc.type == "solved_signature") {
         // This is a "solved" marker, mark it as solved
         var key = [ doc.APP_VERSION_CODE, doc.digest ];
-        var value = { solved: true };
+        if (doc.rootCause) {
+            key.push(doc.rootCause)
+        } else {
+            key.push("");
+        }
+        var value = { solved: doc.solved };
         // TODO: maybe we should emit as many markers as there APP_VERSION_CODE possible anterior values
         emit(key, value);
     }
