@@ -18,6 +18,11 @@ function(doc) {
             key.push("");
         }
         var value = { solved: doc.solved };
+        if (doc.description) {
+            value.description = doc.description;
+        } else {
+            value.description = "";
+        }
         // TODO: maybe we should emit as many markers as there APP_VERSION_CODE possible anterior values
         emit(key, value);
     }
