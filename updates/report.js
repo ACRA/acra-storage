@@ -4,6 +4,12 @@
 function(doc,req) {
 	var data = JSON.parse(req.body);
 	data.timestamp = new Date();
+    // Ensure that a valid USER_CRASH_DATE is provided as we depend on this date when listing reports.
+    if(isNaN(new Date(data.USER_CRASH_DATE).getTime())) {
+        data.USER_CRASH_DATE = data.timestamp;
+        // Also add a flag to let know that Acralyzer generated the date
+        data.USER_CRASH_DATE_FIXED_BY_ACRALYZER = true;
+    }
 	data.user_ip = req.peer;
 	data["_id"] = data.REPORT_ID;
 	if(data.STACK_TRACE) {

@@ -7,7 +7,11 @@ function(doc) {
         } else {
             key.push("");
         }
-        var value = { latest: new Date(doc.USER_CRASH_DATE).getTime(), count: 1 }
+        var reportDate = new Date(doc.USER_CRASH_DATE);
+        if(isNaN(reportDate.getTime())) {
+            reportDate = doc.timestamp;
+        }
+        var value = { latest: reportDate.getTime(), count: 1 };
         emit(key, value);
     } else if (doc.type == "solved_signature") {
         // This is a "solved" marker, mark it as solved

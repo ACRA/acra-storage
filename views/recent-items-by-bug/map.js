@@ -9,7 +9,11 @@ function(doc) {
         } else {
             key.push("");
         }
-        key.push(new Date(doc.USER_CRASH_DATE));
+        var reportDate = new Date(doc.USER_CRASH_DATE);
+        if(isNaN(reportDate.getTime())) {
+            reportDate = doc.timestamp;
+        }
+        key.push(reportDate);
         emit(key,result);
     }
 }
