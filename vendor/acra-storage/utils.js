@@ -13,6 +13,9 @@ var utils = {
             } else {
                 value.stack_trace = doc.STACK_TRACE;
             }
+            if (doc.INSTALLATION_ID) {
+                value.installation_id = doc.INSTALLATION_ID;
+            }
 
             value.device = utils.getDevice(doc);
 
