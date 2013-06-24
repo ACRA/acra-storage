@@ -1,5 +1,5 @@
 function(doc) {
-    if (doc.SIGNATURE && doc.SIGNATURE.digest && doc.APP_VERSION_CODE && doc.USER_CRASH_DATE) {
+    if (doc.SIGNATURE && doc.SIGNATURE.digest && (typeof doc.APP_VERSION_CODE !== 'undefined') && doc.USER_CRASH_DATE) {
         // This is a report, compute stats
         var key = [ doc.APP_VERSION_CODE, doc.SIGNATURE.digest ];
         if (doc.SIGNATURE.rootCause) {
