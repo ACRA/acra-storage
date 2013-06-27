@@ -24,10 +24,25 @@ var utils = {
     },
 
     getDevice: function(doc) {
-        if(doc.BUILD.MANUFACTURER) {
-            return doc.BUILD.MANUFACTURER + " " + doc.BUILD.BRAND + " " + doc.BUILD.MODEL;
+        if(doc.BUILD) {
+            if(doc.BUILD.MANUFACTURER) {
+                return doc.BUILD.MANUFACTURER + " " + doc.BUILD.BRAND + " " + doc.BUILD.MODEL;
+            } else {
+                return doc.BUILD.BRAND + " " + doc.BUILD.MODEL;
+            }
         } else {
-            return doc.BUILD.BRAND + " " + doc.BUILD.MODEL;
+            var value = "";
+            if(doc.BRAND) {
+                value = doc.BRAND;
+            }
+            if(doc.PRODUCT) {
+                value += " " + doc.PRODUCT;
+            }
+            if(doc.PHONE_MODEL) {
+                value += " " + doc.MODEL;
+            }
+
+            return value;
         }
     }
 };
