@@ -2,6 +2,7 @@
  * Inserts a reception timestamp and transforms some multiple values fields into arrays.
  **/
 function(doc,req) {
+	var base64 = require('vendor/acra-storage/base64');
 	var data = JSON.parse(req.body);
 	data.timestamp = new Date();
     // Ensure that a valid USER_CRASH_DATE is provided as we depend on this date when listing reports.
@@ -20,7 +21,13 @@ function(doc,req) {
 		data.APPLICATION_LOG = data.APPLICATION_LOG.split('\n');
 	}
 	if(data.LOGCAT) {
-		data.LOGCAT = data.LOGCAT.split('\n');
+		var logcat = {
+			content_type: 'text/plain',
+			data: base64.encode(data.LOGCAT)
+		};
+		data._attachments = {};
+		data._attachments['logcat.txt'] = logcat;
+		delete data.LOGCAT;
 	}
 	if(data.RADIOLOG) {
 		data.RADIOLOG = data.RADIOLOG.split('\n');
