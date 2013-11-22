@@ -1,5 +1,26 @@
 function (key, values, rereduce) {
-    var result = { latest: 0, count: 0, solved: false, description: ""};
+    var result = {
+        exception: null,
+        rootCause: null,
+        appVersion: null,
+        description: "",
+        latest: 0,
+        count: 0,
+        solved: false
+    };
+    
+    // Reduce the descriptive fields in value
+    // Assumes that all items with same key have the same values
+    // for these fields
+    for (i=0; i < values.length; ++i) {
+        if ( values[i].exception !== null ){
+            result.exception = values[i].exception;
+            result.rootCause = values[i].rootCause;
+            result.appVersion = values[i].appVersion;
+            break;
+        }
+    }
+
     for(i=0; i<values.length;++i) {
         var value = values[i];
         // compute stats

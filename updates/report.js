@@ -82,7 +82,7 @@ var addReportSignature = function(report) {
         var result = { full: "", digest: ""};
         var stack = report.STACK_TRACE;
         if(stack.length > 1) {
-            var exceptionName =  stack[0];
+            var exceptionName =  stack[0].split(':')[0];
             var faultyLine = stack[1];
             var applicationPackage = report.PACKAGE_NAME;
             for(var line in stack) {
@@ -92,14 +92,7 @@ var addReportSignature = function(report) {
                 }
             }
             result.full = exceptionName + " " + trim(faultyLine);
-
-            var captureRegEx = new RegExp("\\((.*)\\)", "g");
-            var capturedFaultyLine = captureRegEx.exec(faultyLine);
-            var faultyLineDigest = "unknown";
-            if(capturedFaultyLine) {
-                faultyLineDigest =  capturedFaultyLine[1];
-            }
-            result.digest = exceptionName + " : " + faultyLineDigest;
+            result.digest = exceptionName + " : " + digestFaultyLine(faultyLine);
 
             // Find root cause
             // First, find the latest "Caused by" in the stack trace
@@ -115,7 +108,7 @@ var addReportSignature = function(report) {
 
             if(rootExceptionStackLine > 0) {
                 // From here, extract the exception name
-                var rootExceptionName = stack[rootExceptionStackLine].substring(rootClue.length);
+                var rootExceptionName = stack[rootExceptionStackLine].substring(rootClue.length).split(':')[0];
 
                 // Then find the first occurrence of the application package name
                 // If the application package name is not found, take the first line
@@ -127,12 +120,26 @@ var addReportSignature = function(report) {
                     }
                 }
 
-                result.rootCause = rootExceptionName + " " + rootFaultyLine;
+                result.rootCause = rootExceptionName + " " + trim(rootFaultyLine);
+                result.rootDigest = rootExceptionName + " : " + digestFaultyLine(rootFaultyLine);
             }
-
-            report.SIGNATURE = result;
         }
+        report.SIGNATURE = result;
+
+        var utils = require('vendor/acra-storage/utils');
+        var rootCause = report.SIGNATURE.rootCause ? report.SIGNATURE.rootCause : "";
+        var rawBugHash = report.APP_VERSION_CODE + report.SIGNATURE.digest + report.SIGNATURE.rootDigest;
+        report.SIGNATURE.hash = utils.hashCode(rawBugHash);
     }
+};
+
+var digestFaultyLine = function(line) {
+    var captureRegEx = new RegExp("\\((.*)\\)", "g");
+    var capturedFaultyLine = captureRegEx.exec(line);
+    if (capturedFaultyLine) {
+        return capturedFaultyLine[1];
+    }
+    return "unknown";
 };
 
 var trim = function(myString)
