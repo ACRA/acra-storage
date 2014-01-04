@@ -45,8 +45,8 @@ function (head, req) {
             send('<p>crash line: ' + escape(row.value.signature.full) + '</p>');
         }
         send(']]></description>');
-        send('<guid>' + row.id + '</guid>');
-        send('<pubDate>' + row.key + '</pubDate>')
+        send('<guid isPermaLink="false">' + row.id + '</guid>');
+        send('<pubDate>' + row.key + '</pubDate>');
         send('</item>');
     }
     send('</channel>');
