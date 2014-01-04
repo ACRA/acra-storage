@@ -1,4 +1,15 @@
 function (head, req) {
+    var fixDate = function(s) {
+        if (Date.parse) {
+            try {
+                var d = new Date(Date.parse(s));
+                return d.toUTCString();
+            } catch (e) {
+            }
+        }
+        return s;
+    };
+
     var escape = function(s){
         if (!s) { s = ""; }
         s = s.toString();
@@ -46,7 +57,7 @@ function (head, req) {
         }
         send(']]></description>');
         send('<guid isPermaLink="false">' + row.id + '</guid>');
-        send('<pubDate>' + row.key + '</pubDate>');
+        send('<pubDate>' + fixDate(row.key) + '</pubDate>');
         send('</item>');
     }
     send('</channel>');
