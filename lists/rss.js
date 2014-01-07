@@ -1,4 +1,23 @@
 function (head, req) {
+    var fixDate = function(s) {
+        if (Date.parse) {
+            try {
+                var d = new Date(Date.parse(s));
+                return d.toUTCString();
+            } catch (e) {
+            }
+        }
+        return s;
+    };
+
+    var escape = function(s){
+        if (!s) { s = ""; }
+        s = s.toString();
+        return s.replace(/&quot;/g, '"')
+            .replace(/&gt;/g, '>')
+            .replace(/&lt;/g, '<')
+            .replace(/&amp;/g, '&');
+    };
 
     var appDBPrefix = 'acra-';
 
@@ -23,24 +42,25 @@ function (head, req) {
         send('</title>');
         send('<link>http://'+ req.headers.Host);
         send('/acralyzer/_design/acralyzer/index.html#/report-details/' + appName + '/' + row.id +'</link>');
-        send('<description>');
+        send('<description><![CDATA[');
         if(row.value.application_version_name) {
-            send('<p>app_version: ' + row.value.application_version_name + '</p>');
+            send('<p>app_version: ' + escape(row.value.application_version_name) + '</p>');
         }
         if(row.value.android_version) {
-            send('<p>android_version: ' + row.value.android_version + '</p>');
+            send('<p>android_version: ' + escape(row.value.android_version) + '</p>');
         }
         if(row.value.device) {
-            send('<p>device: ' + row.value.device + '</p>');
+            send('<p>device: ' + escape(row.value.device) + '</p>');
         }
         if(row.value.signature) {
-            send('<p>crash line: ' + row.value.signature.full + '</p>');
+            send('<p>crash line: ' + escape(row.value.signature.full) + '</p>');
         }
-        send('</description>');
-        send('<guid>' + row.id + '</guid>');
-        send('<pubDate>' + row.key + '</pubDate>')
+        send(']]></description>');
+        send('<guid isPermaLink="false">' + row.id + '</guid>');
+        send('<pubDate>' + fixDate(row.key) + '</pubDate>');
         send('</item>');
     }
     send('</channel>');
     send('</rss>');
+
 }
