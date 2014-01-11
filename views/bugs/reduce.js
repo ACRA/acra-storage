@@ -1,6 +1,7 @@
+/* jshint -W025 */
 function (key, values, rereduce) {
     var result = { latest: 0, count: 0, solved: false, description: ""};
-    for(i=0; i<values.length;++i) {
+    for(var i=0; i<values.length;++i) {
         var value = values[i];
         // compute stats
         if(value.latest && value.count){

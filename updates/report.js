@@ -1,3 +1,5 @@
+/* global emit: false, utils: false */
+/* jshint -W025 */
 /**
  * Inserts a reception timestamp and transforms some multiple values fields into arrays.
  **/

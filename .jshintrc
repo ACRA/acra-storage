@@ -5,7 +5,7 @@
     "indent": 4,
     "trailing": true,
 
-    "strict": true,
+    "strict": false,
     "curly": true,
     "eqeqeq": true,
     "immed": true,

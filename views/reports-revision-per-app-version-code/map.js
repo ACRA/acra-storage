@@ -1,3 +1,5 @@
+/* global emit: false */
+/* jshint -W025 */
 function(doc) {
     if(doc.REPORT_ID) {
         if(doc.APP_VERSION_CODE) {
