@@ -12,11 +12,11 @@ function (head, req) {
 
     var escape = function(s){
         if (!s) { s = ""; }
-        s = s.toString();
-        return s.replace(/&quot;/g, '"')
-            .replace(/&gt;/g, '>')
-            .replace(/&lt;/g, '<')
-            .replace(/&amp;/g, '&');
+        return String(s).replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
     };
 
     var appDBPrefix = 'acra-';
@@ -37,7 +37,7 @@ function (head, req) {
         send('<item>');
         send('<title>');
         if(row.value.signature) {
-            send(row.value.signature.digest);
+            send(escape(row.value.signature.digest));
         }
         send('</title>');
         send('<link>http://'+ req.headers.Host);
