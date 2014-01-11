@@ -1,3 +1,4 @@
+/* jshint -W025 */
 function(newDoc, oldDoc, userCtx) {
 
     var MIN_APP_VERSION_CODE = 0;
