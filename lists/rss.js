@@ -37,7 +37,7 @@ function (head, req) {
         send('<item>');
         send('<title>');
         if(row.value.signature) {
-            send(row.value.signature.digest);
+            send(escape(row.value.signature.digest));
         }
         send('</title>');
         send('<link>http://'+ req.headers.Host);
