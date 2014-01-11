@@ -1,3 +1,4 @@
+/* global exports */
 var utils = {
 
     digestReport: function(doc) {
@@ -50,4 +51,4 @@ var utils = {
 // CommonJS bindings
 if( typeof(exports) === 'object' ) {
     exports.digestReport = utils.digestReport;
-};
+}

@@ -1,4 +1,7 @@
+/* global: send: false, start: false, getRow: false */
+/* jshint -W025 */
 function (head, req) {
+    "use strict";
     var fixDate = function(s) {
         if (Date.parse) {
             try {
@@ -32,6 +35,7 @@ function (head, req) {
     send('<link>http://' + req.headers.Host + '/acralyzer/_design/acralyzer/index.html#/dashboard/' + appName + '</link>');
     send('<description>Acralyzer latest crash reports.</description>');
     var nbItems = 0;
+    var row;
     while ((nbItems < NB_ITEMS_MAX) && (row = getRow())) {
         nbItems++;
         send('<item>');

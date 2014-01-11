@@ -1,3 +1,5 @@
+/* global emit: false */
+/* jshint -W025 */
 function(doc) {
     if(doc.REPORT_ID) {
         var crashDate = new Date(doc.USER_CRASH_DATE);

@@ -1,3 +1,5 @@
+/* global emit: false, utils: false */
+/* jshint -W025 */
 function(doc) {
 
     // !code vendor/acra-storage/utils.js
@@ -10,4 +12,4 @@ function(doc) {
         var key = [doc.ANDROID_VERSION, reportDate];
         emit(key, result);
     }
-};
+}
