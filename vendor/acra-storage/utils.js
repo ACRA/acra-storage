@@ -44,10 +44,15 @@ var utils = {
 
             return value;
         }
+    },
+
+    hashCode: function(s) {
+        return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a|=0},0);
     }
 };
 
 // CommonJS bindings
 if( typeof(exports) === 'object' ) {
     exports.digestReport = utils.digestReport;
+    exports.hashCode = utils.hashCode;
 };
