@@ -6,6 +6,7 @@ var utils = {
                 user_crash_date: doc.USER_CRASH_DATE,
                 android_version: doc.ANDROID_VERSION,
                 application_version_name: doc.APP_VERSION_NAME,
+                application_version_code: doc.APP_VERSION_CODE || -1,
                 application_package: doc.APPLICATION_PACKAGE
             };
             if(doc.SIGNATURE){
